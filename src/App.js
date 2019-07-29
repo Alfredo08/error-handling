@@ -1,26 +1,56 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+
+    constructor(props){
+        super(props);
+        this.state = {
+            name : "Alfredo",
+            error : ""
+        }
+    }
+
+    handleSubmit = (e) => {
+        e.preventDefault();
+
+        let currentValue = e.target.firstName.value;
+        let greeting = document.getElementById("greeting");
+
+        if (currentValue === ""){
+            this.setState({
+                error: "Please provide a name!"
+            });
+
+            greeting.className = "hideElement";
+        }
+        else {
+            this.setState({
+                name: e.target.firstName.value,
+                error: ""
+            });
+            greeting.className = "displayElement";
+        }
+    };
+
+    render() {
+      return (
+          <div className="App">
+              <form onSubmit={this.handleSubmit}>
+                  Please type your first name :
+                  <input name="firstName" type="text" />
+                  <button> Submit</button>
+              </form>
+              <div id="greeting" className="displayElement">
+                  Hello there {this.state.name}
+              </div>
+              <div className="error">
+                  {this.state.error}
+              </div>
+
+          </div>
+      );
+    }
 }
 
 export default App;
